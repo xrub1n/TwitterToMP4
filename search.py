@@ -46,7 +46,7 @@ def main():
     filename = "data/data.txt"
     
     link = parseFile(filename)
-    print()
-    print("\n The link to the mp4 provided is: \n" + link)
+    print(".")
+    print("\nThe link to the mp4 provided is: \n\n" + link)
 
 main()
