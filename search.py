@@ -14,23 +14,39 @@ def opener(filename):
 
 def parseFile(filename):
     previousLine = ""
-    current = ""
-    with open(filename) as file:
+    with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
             if(isMP4(line)):
-                return getLink(line, previousLine)
+                return findLink(line, previousLine)
+            previousLine = line
 
 
-def isMP4(line):
-    if(re.findall('.mp4'), line):
-        return True
-    else:
-        return False
 
-def getLink(line, previousLine):
+def isMP4(line):    #checks if the string ".mp4" is contained in the line.
+    return re.findall('.mp4',line)
+
+def findLink(line, previousLine):
+    index = len(line)
+    while(index >= 3):
+        index -= 1
+        if(line[index] == "4" and line[index-1] == "p" and line[index-2] == "m" and line[index-3] == "."):
+            return getLink(line,index,"",previousLine)
+                    
+                    
+        
+def getLink(line,index,link="",previousLine=""):
+    while(line[index] != '"'):
+        link = line[index] + link
+        index -= 1
+        if(index < 0):
+            return getLink(previousLine,len(previousLine)-1,link)
+    return link
 
 def main():
     filename = "data/data.txt"
     
-    search(filename)
+    link = parseFile(filename)
+    print()
+    print("\n The link to the mp4 provided is: \n" + link)
+
 main()
